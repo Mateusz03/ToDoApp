@@ -1,19 +1,17 @@
-import { Router, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/home/home";
-import Login from "./components/login/login";
 import Main from "./components/main/main";
-import Register from "./components/register/register";
+import Sign from "./components/sign/sign";
 
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/sign:signAuth" element={<Sign />} />
         <Route path="/main:Id" element={<Main />} />
-      </Router>
+      </Routes>
     </div>
   );
 }
