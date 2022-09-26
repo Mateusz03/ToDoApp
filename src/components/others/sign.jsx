@@ -1,11 +1,29 @@
 import execVerify from "../others/execVerification";
 import axios from "axios";
+import { getToken, setToken } from "./token";
 
-export const signIn = (inputs) => {
+export const SignIn = async (inputs) => {
   const execResult = execVerify(inputs);
   switch (execResult.exec) {
     case true:
-      return;
+      await axios
+        .post(
+          "http://localhost:3001/login",
+          { body: { username: inputs.username, password: inputs.password } },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          },
+        )
+        .then((res) => {
+          setToken(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return getToken();
     case "both":
       return {
         message: "both",

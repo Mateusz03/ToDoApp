@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./login.css";
-import { signIn } from "../others/sign";
+import { SignIn } from "../others/sign";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -20,12 +20,21 @@ const Login = () => {
     }
   };
 
-  const onClick = (button) => {
+  const onClick = async (button) => {
     if (button === "Login") {
-      const sign = signIn(inputs);
+      const sign = await SignIn(inputs);
       if (sign) {
-        setResult(sign.message);
-        setError(sign.messageValue);
+        if (sign?.token) {
+          navigate(`/main${sign.token}?${sign.username}`);
+          return;
+        } else if (!sign?.token) {
+          console.log(sign.token);
+          setResult(false);
+          setError("Wrong username or password");
+          return;
+        }
+        setResult(sign?.message);
+        setError(sign?.messageValue);
         return;
       }
       setResult(false);
@@ -39,13 +48,13 @@ const Login = () => {
   const style = {
     username: {
       borderBottom:
-        result === "username" || result === "both"
+        result === "username" || result === "both" || result === false
           ? " 2px solid #FF0033"
           : " 2px solid black",
     },
     password: {
       borderBottom:
-        result === "password" || result === "both"
+        result === "password" || result === "both" || result === false
           ? " 2px solid #FF0033"
           : " 2px solid black",
     },

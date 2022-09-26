@@ -1,8 +1,9 @@
 import Register from "../register/register";
 import Login from "../login/login";
-import Close from "../../assets/image/close.svg";
+
 import { useParams, useNavigate } from "react-router-dom";
 import "./sign.css";
+import Close from "../../assets/image/close.svg";
 const Sign = () => {
   let { signAuth } = useParams();
   const navigate = useNavigate();
