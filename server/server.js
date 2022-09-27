@@ -14,6 +14,10 @@ app.post("/login", async (req, res) => {
   res.send(await Login.Login(req.body.body));
 });
 
+app.post('/register',async (req,res)=>{
+  console.log(req.body);
+})
+
 app.listen(port, () => {
   console.log(`App listen on http://localhost:${port}`);
 });
