@@ -27,12 +27,24 @@ const Register = () => {
       return;
     }
   };
-  const onClick = (button) => {
+  const onClick = async(button) => {
     if (button === "Sign In") {
       navigate(`/signIn`);
     } else if (button === "Register") {
       if (inputs.firstPassword === inputs.secondPassword) {
-        const sign = signUp(inputs);
+        
+        const sign = await signUp(inputs);
+
+        if(sign?.register){
+          navigate('/');
+          alert('Register successfully');
+          return;
+        }else if(!sign?.register){
+          setResult('username');
+          setError('Username is already exist');
+          return;
+        }
+
         if (sign) {
           setResult(sign.message);
           setError(sign.messageValue);

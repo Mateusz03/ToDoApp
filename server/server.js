@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const Login = require("./login");
+const Register = require('./register');
 
 const app = express();
 const port = 3001;
@@ -15,7 +16,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post('/register',async (req,res)=>{
-  console.log(req.body);
+  res.send(await Register.Register(req.body.body));
 })
 
 app.listen(port, () => {

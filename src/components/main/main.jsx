@@ -3,8 +3,6 @@ import { ReactComponent as Add } from "../../assets/image/add.svg";
 import { ReactComponent as Open } from "../../assets/image/open.svg";
 import { ReactComponent as Trash } from "../../assets/image/delete.svg";
 import { getToken } from "../others/token";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const Main = () => {
   return (
