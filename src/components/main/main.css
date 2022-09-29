@@ -16,8 +16,14 @@ header {
   margin-left: 128px;
 }
 .resetTasks {
-  font-size: 21px;
-  color: #ff0033;
+  transition: 800ms;
+  transform: scale(0.8);
+  fill: #ff0033;
+}
+.resetTasks:hover {
+  transform: scale(1);
+  transition: 800ms;
+  rotate: -1turn;
 }
 .logout {
   font-size: 32px;
@@ -67,6 +73,7 @@ li {
   stroke: #1e32cd;
   opacity: 0.7;
   transform: scale(1.2);
+  z-index: 0;
 }
 .addImg:hover {
   opacity: 0.9;
@@ -75,8 +82,10 @@ li {
 .open {
   transform: scale(0.8);
   fill: #3359bc;
+  z-index: 0;
 }
 .trash {
   transform: scale(0.8);
   fill: #ff0033;
+  z-index: 0;
 }
