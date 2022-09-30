@@ -1,10 +1,16 @@
-import "./editor.css";
+import { useState } from "react";
+import { EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { ReactComponent as Close } from "../../assets/image/close.svg";
 import { ReactComponent as Trash } from "../../assets/image/delete.svg";
 import { ReactComponent as Save } from "../../assets/image/save.svg";
-// import RichTextExample from "../others/richtextEditor";
+import "./editor.css";
+const TextEditor = () => {
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty(),
+  );
 
-const Editor = () => {
   return (
     <div className="bgShadow">
       <section className="editorContent">
@@ -16,10 +22,16 @@ const Editor = () => {
             <Close className="close editorButton" />
           </div>
         </div>
-        {/* <RichTextExample /> */}
+        <Editor
+          editorState={editorState}
+          onEditorStateChange={setEditorState}
+          wrapperClassName="wrapper-class"
+          editorClassName="editor-class"
+          toolbarClassName="toolbar-class"
+        />
       </section>
     </div>
   );
 };
 
-export default Editor;
+export default TextEditor;
