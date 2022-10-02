@@ -1,0 +1,59 @@
+.loginContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 64px;
+  position: relative;
+}
+.inputs {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+}
+input {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+}
+.signButtons {
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  gap: 32px;
+}
+.signLogin {
+  background: linear-gradient(
+    90deg,
+    #4052e4 0%,
+    rgba(154, 98, 198, 0.6) 53.32%,
+    rgba(64, 82, 228, 0.4) 100%
+  );
+  opacity: 0.6;
+}
+.signLogin:hover {
+  opacity: 1;
+}
+.signRegister {
+  border: 1px solid rgb(33, 33, 33);
+  opacity: 0.6;
+}
+.signRegister:hover {
+  opacity: 1;
+}
+.error {
+  position: absolute;
+  bottom: 96px;
+  color: #ff0033;
+  font-size: 18px;
+  text-shadow: 0px 0px 3px black;
+  text-align: center;
+}
