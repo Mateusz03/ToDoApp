@@ -37,11 +37,21 @@ app.post("/delete", async (req, res) => {
       userId: req.body.body.userId,
       value: req.body.body.value,
       id: req.body.body.id,
+      ended: req.body.body.ended,
     }),
   );
 });
 
-app.post("/done", async (req, res) => {});
+app.post("/done", async (req, res) => {
+  res.send(
+    await Main.Done({
+      userId: req.body.body.userId,
+      value: req.body.body.value,
+      id: req.body.body.id,
+      ended: req.body.body.ended,
+    }),
+  );
+});
 
 app.listen(port, () => {
   console.log(`App listen on http://localhost:${port}`);

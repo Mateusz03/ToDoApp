@@ -2,7 +2,7 @@ import { ReactComponent as Done } from "../../assets/image/done.svg";
 import { ReactComponent as Trash } from "../../assets/image/delete.svg";
 import { getToken, setToken } from "../others/token";
 import "./main.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 const Main = () => {
@@ -10,27 +10,80 @@ const Main = () => {
   const [todo, setTodo] = useState([]);
   const [items, setItem] = useState();
   const [click, setClick] = useState(false);
-  const [firstRender, setRender] = useState(true);
+  const [Render, setRender] = useState(true);
 
-  const trash = async (key) => {
-    await axios.post(
-      "http://localhost:3001/delete",
-      { body: { userId: getToken().token, id: key, ...todo[key] } },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      },
-    );
-  };
+  const deleteItem = useCallback(
+    async (key) => {
+      await axios
+        .post(
+          "http://localhost:3001/delete",
+          {
+            body: {
+              userId: getToken().token,
+              value: todo[key].value,
+              id: parseInt(todo[key].id),
+              ended: todo[key].ended,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          },
+        )
+        .then((val) => {
+          if (val.data) {
+            todo.splice(key, 1);
+            setRender(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    [todo],
+  );
 
-  const done = async (key) => {
-    console.log(key);
-  };
+  const done = useCallback(
+    async (key) => {
+      if (!todo[key].ended) {
+        await axios
+          .post(
+            "http://localhost:3001/done",
+            {
+              body: {
+                userId: getToken().token,
+                value: todo[key].value,
+                id: parseInt(todo[key].id),
+                ended: todo[key].ended,
+              },
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+              },
+            },
+          )
+          .then((val) => {
+            todo[key] = {
+              value: val.data.value,
+              ended: val.data.ended,
+              id: val.data.id,
+            };
+            setRender(true);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    [todo],
+  );
 
   useEffect(() => {
-    if (firstRender) {
+    if (Render) {
       const fetchData = async () => {
         await axios
           .post(
@@ -64,7 +117,19 @@ const Main = () => {
 
       todo.forEach((item, key) => {
         itemList.push(
-          <nav key={key}>
+          <nav
+            key={key}
+            style={{
+              textDecorationLine: todo.find(
+                (val) =>
+                  val.ended === true &&
+                  val.value === item.value &&
+                  item.id === key,
+              )
+                ? "line-through"
+                : "",
+            }}
+          >
             <div className="task">{item.value}</div>
             <div className="taskButtons">
               <Done
@@ -76,21 +141,20 @@ const Main = () => {
               <Trash
                 className="trash"
                 onClick={() => {
-                  trash(key);
+                  deleteItem(key);
                 }}
               />
             </div>
           </nav>,
         );
       });
-      console.log(itemList);
       setItem(itemList);
     };
-    if (click || todo) {
+    if (click || todo || Render) {
       addNewValues();
       setClick(false);
     }
-  }, [todo, click, firstRender]);
+  }, [todo, click, Render, deleteItem, done]);
 
   const addItem = async () => {
     if (textValue) {

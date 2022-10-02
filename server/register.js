@@ -6,7 +6,7 @@ module.exports.Register = async (params) => {
     usersRef.add({
       username: params.username,
       password: params.password,
-      ToDo: [{ value: "Default text you can delete him", ended: false }],
+      ToDo: [{ id: 1, value: "Default text you can delete him", ended: false }],
     });
     return { register: true };
   }
