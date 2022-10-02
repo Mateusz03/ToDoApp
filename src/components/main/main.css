@@ -141,10 +141,18 @@ nav {
 .done {
   transform: scale(0.8);
   fill: #3359bc;
+  transition: 100ms;
   z-index: 0;
 }
 .trash {
   transform: scale(0.8);
+  transition: 100ms;
   fill: #ff0033;
   z-index: 0;
+}
+.done:hover {
+  transform: scale(0.9);
+}
+.trash:hover {
+  transform: scale(0.9);
 }
