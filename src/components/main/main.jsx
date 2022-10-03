@@ -13,16 +13,16 @@ const Main = () => {
   const [Render, setRender] = useState(true);
 
   const deleteItem = useCallback(
-    async (key) => {
+    async (value) => {
       await axios
         .post(
           "http://localhost:3001/delete",
           {
             body: {
               userId: getToken().token,
-              value: todo[key].value,
-              id: parseInt(todo[key].id),
-              ended: todo[key].ended,
+              value: value.value,
+              id: value.id,
+              ended: value.ended,
             },
           },
           {
@@ -34,7 +34,7 @@ const Main = () => {
         )
         .then((val) => {
           if (val.data) {
-            todo.splice(key, 1);
+            todo.splice(value.key, 1);
             setRender(true);
           }
         })
@@ -46,17 +46,17 @@ const Main = () => {
   );
 
   const done = useCallback(
-    async (key) => {
-      if (!todo[key].ended) {
+    async (value) => {
+      if (!value.ended) {
         await axios
           .post(
             "http://localhost:3001/done",
             {
               body: {
                 userId: getToken().token,
-                value: todo[key].value,
-                id: parseInt(todo[key].id),
-                ended: todo[key].ended,
+                value: value.value,
+                id: value.id,
+                ended: value.ended,
               },
             },
             {
@@ -67,11 +67,12 @@ const Main = () => {
             },
           )
           .then((val) => {
-            todo[key] = {
+            todo[value.key] = {
               value: val.data.value,
               ended: val.data.ended,
               id: val.data.id,
             };
+            console.log(todo);
             setRender(true);
           })
           .catch((err) => {
@@ -124,7 +125,7 @@ const Main = () => {
                 (val) =>
                   val.ended === true &&
                   val.value === item.value &&
-                  item.id === key,
+                  val.id === item.id,
               )
                 ? "line-through"
                 : "",
@@ -135,13 +136,25 @@ const Main = () => {
               <Done
                 className="done"
                 onClick={() => {
-                  done(key);
+                  console.log(item.id);
+                  done({
+                    id: item.id,
+                    value: item.value,
+                    ended: item.ended,
+                    key: key,
+                  });
                 }}
               />
               <Trash
                 className="trash"
                 onClick={() => {
-                  deleteItem(key);
+                  console.log(item.id);
+                  deleteItem({
+                    id: item.id,
+                    value: item.value,
+                    ended: item.ended,
+                    key: key,
+                  });
                 }}
               />
             </div>
